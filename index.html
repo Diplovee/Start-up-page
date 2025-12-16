@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dev Home</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: hsl(222.2 84% 4.9%);
+      color: hsl(210 40% 98%);
+      padding: 24px;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.08) 0%, transparent 25%),
+                  radial-gradient(circle at 80% 80%, rgba(147, 51, 234, 0.08) 0%, transparent 25%),
+                  radial-gradient(circle at 40% 20%, rgba(6, 182, 212, 0.06) 0%, transparent 25%);
+      animation: gradientMove 20s ease infinite;
+      z-index: 0;
+      pointer-events: none;
+    }
+    @keyframes gradientMove {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      33% { transform: translate(5%, 5%) rotate(120deg); }
+      66% { transform: translate(-5%, 5%) rotate(240deg); }
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+    h1 {
+      font-size: 32px;
+      font-weight: 600;
+      margin-bottom: 32px;
+      letter-spacing: -0.025em;
+      animation: fadeInUp 0.6s ease;
+    }
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .search-container {
+      margin-bottom: 40px;
+      animation: fadeInUp 0.6s ease 0.1s backwards;
+    }
+    .search-wrapper {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+    }
+    .search-input {
+      flex: 1;
+      padding: 14px 16px;
+      background: hsl(217.2 32.6% 17.5%);
+      border: 1px solid hsl(217.2 32.6% 17.5%);
+      border-radius: 8px;
+      color: hsl(210 40% 98%);
+      font-size: 15px;
+      transition: all 0.2s ease;
+      outline: none;
+    }
+    .search-input::placeholder {
+      color: hsl(215 20.2% 65.1%);
+    }
+    .search-input:focus {
+      border-color: hsl(217.2 32.6% 25%);
+      background: hsl(217.2 32.6% 19%);
+    }
+    .engine-toggle {
+      display: flex;
+      background: hsl(217.2 32.6% 17.5%);
+      border-radius: 8px;
+      padding: 4px;
+      gap: 4px;
+    }
+    .engine-btn {
+      padding: 10px 16px;
+      background: transparent;
+      border: none;
+      border-radius: 6px;
+      color: hsl(215 20.2% 65.1%);
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .engine-btn:hover {
+      color: hsl(210 40% 98%);
+    }
+    .engine-btn.active {
+      background: hsl(217.2 32.6% 22%);
+      color: hsl(210 40% 98%);
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 16px;
+      animation: fadeInUp 0.6s ease 0.2s backwards;
+    }
+    a {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      text-decoration: none;
+      background: hsl(217.2 32.6% 17.5%);
+      border-radius: 8px;
+      padding: 20px;
+      color: hsl(210 40% 98%);
+      border: 1px solid hsl(217.2 32.6% 17.5%);
+      transition: all 0.2s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    a::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, hsl(217.2 32.6% 20%) 0%, transparent 50%);
+      opacity: 0;
+      transition: opacity 0.2s ease;
+    }
+    a:hover {
+      border-color: hsl(217.2 32.6% 25%);
+      transform: translateY(-2px);
+    }
+    a:hover::before {
+      opacity: 1;
+    }
+    a:active {
+      transform: translateY(0);
+    }
+    .version {
+      position: fixed;
+      bottom: 16px;
+      right: 16px;
+      font-size: 12px;
+      color: hsl(215 20.2% 45%);
+      font-weight: 500;
+      z-index: 10;
+      animation: fadeIn 1s ease 0.5s backwards;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .link-title {
+      font-size: 15px;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+    }
+    .link-url {
+      font-size: 12px;
+      color: hsl(215 20.2% 65.1%);
+      position: relative;
+      z-index: 1;
+    }
+    @media (max-width: 640px) {
+      body {
+        padding: 16px;
+      }
+      h1 {
+        font-size: 28px;
+        margin-bottom: 24px;
+      }
+      .search-container {
+        margin-bottom: 32px;
+      }
+      .search-wrapper {
+        flex-direction: column;
+      }
+      .search-input {
+        width: 100%;
+      }
+      .engine-toggle {
+        width: 100%;
+        justify-content: center;
+      }
+      .grid {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 12px;
+      }
+      a {
+        padding: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1 id="greeting">Good Morning, Diplov</h1>
+    
+    <div class="search-container">
+      <div class="search-wrapper">
+        <input 
+          type="text" 
+          class="search-input" 
+          placeholder="Search the web..."
+          id="searchInput"
+        />
+        <div class="engine-toggle">
+          <button class="engine-btn active" data-engine="brave">Brave</button>
+          <button class="engine-btn" data-engine="google">Google</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="grid">
+      <a href="https://github.com">
+        <span class="link-title">GitHub</span>
+        <span class="link-url">github.com</span>
+      </a>
+      
+      <a href="https://aistudio.google.com">
+        <span class="link-title">Google AI Studio</span>
+        <span class="link-url">aistudio.google.com</span>
+      </a>
+      
+      <a href="https://gemini.google.com">
+        <span class="link-title">Gemini</span>
+        <span class="link-url">gemini.google.com</span>
+      </a>
+      
+      <a href="http://localhost:3000">
+        <span class="link-title">Localhost</span>
+        <span class="link-url">localhost:3000</span>
+      </a>
+      
+      <a href="https://chat.openai.com">
+        <span class="link-title">ChatGPT</span>
+        <span class="link-url">chat.openai.com</span>
+      </a>
+      
+      <a href="https://vercel.com">
+        <span class="link-title">Vercel</span>
+        <span class="link-url">vercel.com</span>
+      </a>
+    </div>
+  </div>
+
+  <div class="version">v5.8</div>
+
+  <script>
+    // Dynamic greeting based on time
+    function updateGreeting() {
+      const hour = new Date().getHours();
+      const greeting = document.getElementById('greeting');
+      
+      if (hour >= 5 && hour < 12) {
+        greeting.textContent = 'Good Morning, Diplov';
+      } else if (hour >= 12 && hour < 18) {
+        greeting.textContent = 'Good Afternoon, Diplov';
+      } else {
+        greeting.textContent = 'Good Evening, Diplov';
+      }
+    }
+
+    // Search engine toggle
+    let currentEngine = 'brave';
+    const engineBtns = document.querySelectorAll('.engine-btn');
+    
+    engineBtns.forEach(btn => {
+      btn.addEventListener('click', () => {
+        engineBtns.forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentEngine = btn.dataset.engine;
+      });
+    });
+
+    // Search functionality
+    const searchInput = document.getElementById('searchInput');
+    searchInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter' && searchInput.value.trim()) {
+        const query = encodeURIComponent(searchInput.value);
+        const searchUrl = currentEngine === 'brave' 
+          ? `https://search.brave.com/search?q=${query}`
+          : `https://www.google.com/search?q=${query}`;
+        window.location.href = searchUrl;
+      }
+    });
+
+    // Initialize greeting
+    updateGreeting();
+  </script>
+</body>
+</html>
